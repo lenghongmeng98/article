@@ -50,6 +50,7 @@ public class Comment {
                 .content(this.content)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .userId(this.user.getUserId())
                 .build();
     }
 }

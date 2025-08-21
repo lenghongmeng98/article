@@ -54,6 +54,7 @@ public class Article {
 
     // -- Relationship with Comment
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("createdAt DESC")
     private List<Comment> comments;
 
     // -- Response

@@ -78,6 +78,6 @@ public class ArticleController {
     @GetMapping("/{articleId}/comments")
     @Operation(summary = "Get all comments by article id, can be used by all roles")
     public ResponseEntity<ApiResponse<ArticleWithCommentDTO>> getAllCommentsByArticleId(@PathVariable Long articleId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Get article with comments successfully", articleService.getAllCommentsByArticleId(articleId)));
+        return ResponseEntity.ok(ApiResponse.success("Get article with comments successfully", articleService.getAllCommentsByArticleId(articleId)));
     }
 }

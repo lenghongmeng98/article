@@ -24,8 +24,8 @@ public class UserCreateRequest {
     private String password;
 
     @Pattern(
-            regexp = "^(?:0\\d{9,14}|\\+885\\d{6,11})$",
-            message = "Invalid phone number format. Must start with 0 or +885 and be 10-15 characters long"
+            regexp = "^(?:0\\d{8,9}|\\+885\\d{8,9})$",
+            message = "Invalid phone number format. Must start with 0 or +885 and follow by 8-9 characters long"
     )
     private String phoneNumber;
 
