@@ -1,0 +1,51 @@
+-- -- Initial data for development and testing
+--
+-- -- Insert default admin user (password: admin123)
+-- INSERT INTO user_tb (username, email, role, password, address, phone_number, created_at, updated_at)
+-- VALUES ('admin', 'admin@bakong.com', 'AUTHOR', '$2a$10$N.zmdr9k7uOCQb376NoUnuTrTg5N5FzUCmKMvKfnvF.nCBhQ2IXqq', 'Phnom Penh, Cambodia', '+85512345678', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+--     ON CONFLICT (username) DO NOTHING;
+--
+-- -- Insert default user (password: user123)
+-- INSERT INTO user_tb (username, email, role, password, address, phone_number, created_at, updated_at)
+-- VALUES ('user1', 'user1@bakong.com', 'READER', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd44DMxFgBKxWw6.', 'Siem Reap, Cambodia', '+85587654321', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+--     ON CONFLICT (username) DO NOTHING;
+--
+-- -- Insert sample categories
+-- INSERT INTO category (category_name, amount_of_articles, user_id, created_at, updated_at)
+-- VALUES
+--     ('Technology', 0, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Business', 0, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Health', 0, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Education', 0, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- -- Insert sample articles
+-- INSERT INTO article (title, description, user_id, created_at, updated_at)
+-- VALUES
+--     ('Introduction to Spring Boot', 'A comprehensive guide to getting started with Spring Boot framework for Java developers.', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Digital Banking in Cambodia', 'Exploring the evolution of digital banking services in Cambodia and their impact on financial inclusion.', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Healthy Living Tips', 'Essential tips for maintaining a healthy lifestyle in modern times.', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- -- Link articles to categories (many-to-many relationship)
+-- INSERT INTO category_article (category_id, article_id)
+-- VALUES
+--     (1, 1), -- Technology -> Spring Boot article
+--     (2, 2), -- Business -> Digital Banking article
+--     (3, 3); -- Health -> Healthy Living article
+--
+-- -- Update category article counts
+-- UPDATE category SET amount_of_articles = 1 WHERE category_id IN (1, 2, 3);
+--
+-- -- Insert sample comments
+-- INSERT INTO comment (cnt, article_id, user_id, created_at, updated_at)
+-- VALUES
+--     ('Great tutorial! Very helpful for beginners.', 1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Thanks for sharing this comprehensive guide.', 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('Interesting insights about digital banking trends.', 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('These health tips are very practical.', 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- -- Insert sample bookmarks
+-- INSERT INTO bookmark (status, article_id, user_id, created_at, updated_at)
+-- VALUES
+--     ('ACTIVE', 1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('ACTIVE', 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--     ('ACTIVE', 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
