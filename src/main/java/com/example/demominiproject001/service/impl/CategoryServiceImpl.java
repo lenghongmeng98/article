@@ -33,8 +33,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final AppUserRepository appUserRepository;
 
     @Override
-    public List<CategoryDTO> getAllCategories(int page, int size, CategorySortBy sortBy, Sort.Direction sortDir) {
-        Pageable pageable = PageRequest.of(page-1, size, sortDir, String.valueOf(sortBy));
+    public List<CategoryDTO> getAllCategories(int page, int size, CategorySortBy sortBy, Sort.Direction sortDirection) {
+        Pageable pageable = PageRequest.of(page-1, size, sortDirection, String.valueOf(sortBy));
         Page<Category> categoryPage = categoryRepository.findAllByUser_UserId(helper.getCurrentUserId(), pageable);
         return categoryPage.getContent().stream().map(Category::convertToCategoryDTO).toList();
     }

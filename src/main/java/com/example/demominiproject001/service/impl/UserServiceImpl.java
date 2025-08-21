@@ -10,6 +10,7 @@ import com.example.demominiproject001.utils.Helper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -39,6 +40,7 @@ public class UserServiceImpl implements AppUserService {
         return user.convertToUserDTO();
     }
 
+    @Transactional
     @Override
     public UserDTO updateCurrentUser(UserUpdateRequest request) {
 

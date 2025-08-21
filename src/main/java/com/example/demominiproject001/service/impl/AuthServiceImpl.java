@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserService userService;
     private final JwtUtil jwtUtil;
 
+    @Transactional
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
 
@@ -54,6 +56,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
+    @Transactional
     @Override
     public UserDTO register(UserCreateRequest request) {
 

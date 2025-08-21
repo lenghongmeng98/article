@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 public class Article {
 
     @Id

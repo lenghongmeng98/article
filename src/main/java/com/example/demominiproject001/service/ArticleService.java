@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ArticleService {
 
-    List<ArticleDTO> getAllArticles(int page, int size, ArticleSortBy sortBy, Sort.Direction sortDir);
+    List<ArticleDTO> getAllArticles(int page, int size, ArticleSortBy sortBy, Sort.Direction sortDirection);
 
     ArticleDTO getArticleById(Long id);
 

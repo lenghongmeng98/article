@@ -10,6 +10,7 @@ import com.example.demominiproject001.utils.Helper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
         return comment.convertToCommentDTO();
     }
 
+    @Transactional
     @Override
     public CommentDTO updateCommentById(long commentId, CommentRequest commentRequest) {
 
@@ -49,6 +51,7 @@ public class CommentServiceImpl implements CommentService {
         return comment.convertToCommentDTO();
     }
 
+    @Transactional
     @Override
     public void deleteCommentById(long commentId) {
 

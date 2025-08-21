@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CategoryService {
 
-    List<CategoryDTO> getAllCategories(int page, int size, CategorySortBy sortBy, Sort.Direction sortDir);
+    List<CategoryDTO> getAllCategories(int page, int size, CategorySortBy sortBy, Sort.Direction sortDirection);
 
     CategoryDTO getCategoryById(Long categoryId);
 

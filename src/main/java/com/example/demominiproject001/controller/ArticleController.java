@@ -35,9 +35,9 @@ public class ArticleController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") ArticleSortBy sortBy,
-            @RequestParam(defaultValue = "DESC") Sort.Direction sortDir)
+            @RequestParam(defaultValue = "DESC") Sort.Direction sortDirection)
     {
-        return ResponseEntity.ok(ApiResponse.success("Get all articles successfully.", articleService.getAllArticles(page, size, sortBy, sortDir)));
+        return ResponseEntity.ok(ApiResponse.success("Get all articles successfully.", articleService.getAllArticles(page, size, sortBy, sortDirection)));
     }
 
     @GetMapping("/{articleId}")

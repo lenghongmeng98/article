@@ -41,9 +41,9 @@ public class ArticleServiceImpl implements ArticleService {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") ArticleSortBy sortBy,
-            @RequestParam(defaultValue = "DESC") Sort.Direction sortDir)
+            @RequestParam(defaultValue = "DESC") Sort.Direction sortDirection)
     {
-        Pageable pageable = PageRequest.of(page-1, size, sortDir, String.valueOf(sortBy));
+        Pageable pageable = PageRequest.of(page-1, size, sortDirection, String.valueOf(sortBy));
         Page<Article> articlePage = articleRepository.findAll(pageable);
         return articlePage.getContent().stream().map(Article::convertToArticleDTO).toList();
     }
@@ -117,7 +117,7 @@ public class ArticleServiceImpl implements ArticleService {
         );
 
         Article article = articleRepository.findById(articleId).orElseThrow(
-                () -> new ResourceNotFoundException("Article not found")
+                () -> new ResourceNotFoundException("Article not found with id: " + articleId)
         );
 
         if(!article.getUser().getEmail().equals(helper.getCurrentUserEmail())) {
@@ -172,7 +172,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long articleId) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(
-                () -> new ResourceNotFoundException("Article not found")
+                () -> new ResourceNotFoundException("Article not found with id: " + articleId)
         );
 
         if(!article.getUser().getEmail().equals(helper.getCurrentUserEmail())) {
@@ -204,7 +204,7 @@ public class ArticleServiceImpl implements ArticleService {
         );
 
         Article article = articleRepository.findById(articleId).orElseThrow(
-                () -> new ResourceNotFoundException("Article not found")
+                () -> new ResourceNotFoundException("Article not found with id: " + articleId)
         );
 
         Comment comment = Comment.builder()
@@ -223,7 +223,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleWithCommentDTO getAllCommentsByArticleId(Long articleId) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(
-                () -> new ResourceNotFoundException("Article not found")
+                () -> new ResourceNotFoundException("Article not found with id: " + articleId)
         );
 
         return article.convertToArticleWithCommentDTO();
