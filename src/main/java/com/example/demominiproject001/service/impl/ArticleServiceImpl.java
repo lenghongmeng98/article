@@ -1,14 +1,12 @@
 package com.example.demominiproject001.service.impl;
 
 import com.example.demominiproject001.exception.ResourceNotFoundException;
-import com.example.demominiproject001.model.entity.AppUser;
-import com.example.demominiproject001.model.entity.Article;
-import com.example.demominiproject001.model.entity.Category;
-import com.example.demominiproject001.model.entity.CategoryArticle;
+import com.example.demominiproject001.model.entity.*;
 import com.example.demominiproject001.model.enums.ArticleSortBy;
 import com.example.demominiproject001.model.request.ArticleRequest;
 import com.example.demominiproject001.model.request.CommentRequest;
 import com.example.demominiproject001.model.response.ArticleDTO;
+import com.example.demominiproject001.model.response.ArticleWithCommentDTO;
 import com.example.demominiproject001.repository.*;
 import com.example.demominiproject001.service.ArticleService;
 import com.example.demominiproject001.utils.Helper;
@@ -100,6 +98,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .article(savedArticle)
                     .category(category)
                     .build();
+
             categoryArticleRepository.save(categoryArticle);
             savedArticle.addCategoryArticle(categoryArticle);
             category.setAmountOfArticles(category.getAmountOfArticles() + 1);
@@ -111,17 +110,21 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Transactional
     @Override
-    public ArticleDTO updateArticle(Long id, ArticleRequest articleRequest) {
+    public ArticleDTO updateArticle(Long articleId, ArticleRequest articleRequest) {
 
-        AppUser appUser = appUserRepository.findByEmail(helper.getCurrentUserEmail()).orElseThrow(
+        appUserRepository.findByEmail(helper.getCurrentUserEmail()).orElseThrow(
                 () -> new ResourceNotFoundException("User not found")
         );
 
-        Article article = articleRepository.findById(id).orElseThrow(
+        Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new ResourceNotFoundException("Article not found")
         );
 
-        List<Category> newCategories = categoryRepository.findAllById(articleRequest.getCategoryIds());
+        if(!article.getUser().getEmail().equals(helper.getCurrentUserEmail())) {
+            throw new ResourceNotFoundException("You don’t have permission to update this article");
+        }
+
+        List<Category> newCategories = categoryRepository.findByCategoryIdInAndUser_UserId(articleRequest.getCategoryIds(), helper.getCurrentUserId());
 
         if (newCategories.size() != articleRequest.getCategoryIds().size()) {
             Set<Long> foundIds = newCategories.stream().map(Category::getCategoryId).collect(Collectors.toSet());
@@ -146,7 +149,6 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setTitle(articleRequest.getTitle());
         article.setDescription(articleRequest.getDescription());
-        article.setUser(appUser);
 
         Article updatedArticle = articleRepository.save(article);
 
@@ -155,6 +157,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .article(updatedArticle)
                     .category(category)
                     .build();
+
             categoryArticleRepository.save(categoryArticle);
             updatedArticle.addCategoryArticle(categoryArticle);
             category.setAmountOfArticles(category.getAmountOfArticles() + 1);
@@ -166,10 +169,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Transactional
     @Override
-    public void deleteArticle(Long id) {
-        Article article = articleRepository.findArticleByArticleIdAndUser_UserId(id, helper.getCurrentUserId()).orElseThrow(
+    public void deleteArticle(Long articleId) {
+
+        Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new ResourceNotFoundException("Article not found")
         );
+
+        if(!article.getUser().getEmail().equals(helper.getCurrentUserEmail())) {
+            throw new ResourceNotFoundException("You don’t have permission to delete this article");
+        }
 
         if(article.getCategoryArticles() != null) {
             article.getCategoryArticles().forEach(categoryArticle -> {
@@ -189,19 +197,36 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Transactional
     @Override
-    public ArticleDTO createCommentOnArticle(Long articleId, CommentRequest commentRequest) {
+    public ArticleWithCommentDTO createCommentOnArticle(Long articleId, CommentRequest commentRequest) {
 
         AppUser appUser = appUserRepository.findByEmail(helper.getCurrentUserEmail()).orElseThrow(
                 () -> new ResourceNotFoundException("User not found")
         );
 
-        Article article = articleRepository.findArticleByArticleIdAndUser_UserId(articleId, helper.getCurrentUserId()).orElseThrow(
+        Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new ResourceNotFoundException("Article not found")
         );
 
+        Comment comment = Comment.builder()
+                .content(commentRequest.getContent())
+                .user(appUser)
+                .article(article)
+                .build();
 
+        commentRepository.save(comment);
+        article.addComment(comment);
 
-        return null;
+        return article.convertToArticleWithCommentDTO();
+    }
+
+    @Override
+    public ArticleWithCommentDTO getAllCommentsByArticleId(Long articleId) {
+
+        Article article = articleRepository.findById(articleId).orElseThrow(
+                () -> new ResourceNotFoundException("Article not found")
+        );
+
+        return article.convertToArticleWithCommentDTO();
     }
 
 }

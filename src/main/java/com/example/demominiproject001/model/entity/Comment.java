@@ -1,5 +1,6 @@
 package com.example.demominiproject001.model.entity;
 
+import com.example.demominiproject001.model.response.CommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,4 +42,14 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
+
+    // Response
+    public CommentDTO convertToCommentDTO() {
+        return CommentDTO.builder()
+                .commentId(this.commentId)
+                .content(this.content)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
+    }
 }

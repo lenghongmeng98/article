@@ -1,6 +1,7 @@
 package com.example.demominiproject001.model.entity;
 
 import com.example.demominiproject001.model.response.ArticleDTO;
+import com.example.demominiproject001.model.response.ArticleWithCommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -70,6 +71,24 @@ public class Article {
                 .build();
     }
 
+    public ArticleWithCommentDTO convertToArticleWithCommentDTO() {
+        return ArticleWithCommentDTO.builder()
+                .articleId(this.articleId)
+                .title(this.title)
+                .description(this.description)
+                .userId(this.user.getUserId())
+                .categories(this.categoryArticles.stream()
+                        .map(c -> c.getCategory().getCategoryName())
+                        .collect(Collectors.toList()))
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .comments(this.comments.stream()
+                        .map(Comment::convertToCommentDTO)
+                        .collect(Collectors.toList())
+                )
+                .build();
+    }
+
     public void addCategoryArticle(CategoryArticle categoryArticle) {
 
         if(this.categoryArticles == null) {
@@ -79,6 +98,18 @@ public class Article {
 
         if (categoryArticle.getArticle() != this) {
             categoryArticle.setArticle(this);
+        }
+    }
+
+    public void addComment(Comment comment) {
+
+        if(this.comments == null) {
+            this.comments = new ArrayList<>();
+        }
+        this.comments.add(comment);
+
+        if (comment.getArticle() != this) {
+            comment.setArticle(this);
         }
     }
 }

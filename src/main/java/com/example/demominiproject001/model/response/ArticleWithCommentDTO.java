@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ArticleDTO {
+public class ArticleWithCommentDTO {
     private Long articleId;
     private String title;
     private String description;
@@ -20,4 +20,5 @@ public class ArticleDTO {
     private List<String> categories;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<CommentDTO> comments;
 }

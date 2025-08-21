@@ -5,6 +5,7 @@ import com.example.demominiproject001.model.enums.ArticleSortBy;
 import com.example.demominiproject001.model.request.ArticleRequest;
 import com.example.demominiproject001.model.request.CommentRequest;
 import com.example.demominiproject001.model.response.ArticleDTO;
+import com.example.demominiproject001.model.response.ArticleWithCommentDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -21,5 +22,7 @@ public interface ArticleService {
 
     void deleteArticle(Long id);
 
-    ArticleDTO createCommentOnArticle(Long articleId, CommentRequest commentRequest);
+    ArticleWithCommentDTO createCommentOnArticle(Long articleId, CommentRequest commentRequest);
+
+    ArticleWithCommentDTO getAllCommentsByArticleId(Long articleId);
 }
