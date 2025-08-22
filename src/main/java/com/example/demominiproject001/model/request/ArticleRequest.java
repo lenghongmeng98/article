@@ -1,5 +1,6 @@
 package com.example.demominiproject001.model.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public class ArticleRequest {
     @Size(max = 500, message = "Title must be at most 500 characters")
     private String description;
 
+    @Schema(defaultValue = "[1, 2]", type = "integer")
     @NotEmpty(message = "At least one category is required")
     private List<Long> categoryIds;
 }

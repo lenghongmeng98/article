@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryRequest {
     @NotBlank(message = "Category name is required")
-    @Size(min = 1, max = 100, message = "Category name must be between 1 and 100 characters")
+    @Size(max = 50, message = "Category must be at most 500 characters")
     private String categoryName;
 }

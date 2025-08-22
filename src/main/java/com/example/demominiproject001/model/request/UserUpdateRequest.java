@@ -1,6 +1,7 @@
 package com.example.demominiproject001.model.request;
 
 import com.example.demominiproject001.model.enums.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class UserUpdateRequest {
     )
     private String phoneNumber;
 
+    @Schema(defaultValue = "Phnom Penh")
     private String address;
 }
 
