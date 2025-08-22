@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class UserUpdateRequest {
 
     @Pattern(
-            regexp = "^(?:0\\d{8,9}|\\+885\\d{8,9})$",
-            message = "Invalid phone number format. Must start with 0 or +885 and follow by 8-9 characters long"
+            regexp = "^(?:0\\d{8,9}|\\+855\\d{8,9})$",
+            message = "Invalid phone number format. Must start with 0 or +855 and follow by 8-9 characters long"
     )
     private String phoneNumber;
 
