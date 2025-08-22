@@ -35,10 +35,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("User registered successfully", userResponse));
     }
 
-//    @PostMapping("/refresh-token")
-//    @Operation(summary = "Refresh new token before expiration")
-//    public ResponseEntity<ApiResponse<LoginResponse>> refreshToken(@RequestParam String refreshToken) {
-//        LoginResponse loginResponse = authService.refreshToken(refreshToken);
-//        return ResponseEntity.ok(ApiResponse.success("Token refreshed successfully", loginResponse));
-//    }
+    @PostMapping("/refresh-token")
+    @Operation(summary = "Refresh new token")
+    public ResponseEntity<ApiResponse<LoginResponse>> refreshToken(@RequestParam String refreshToken) {
+        LoginResponse loginResponse = authService.refreshToken(refreshToken);
+        return ResponseEntity.ok(ApiResponse.success("Token refreshed successfully", loginResponse));
+    }
 }
